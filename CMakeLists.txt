@@ -57,8 +57,7 @@ if(COMPILE_OPTS)
     set_target_properties(protobuf_lite_alloc8 PROPERTIES INTERFACE_COMPILE_OPTIONS "${COMPILE_OPTS}")
 endif()
 
-add_library(protobuf::libprotobuf-lite ALIAS protobuf_lite_alloc8)
-add_dependencies(${COMPONENT_LIB} protobuf::libprotobuf-lite)
+add_dependencies(${COMPONENT_LIB} protobuf_lite_alloc8)
 
 set_property(DIRECTORY "${COMPONENT_DIR}" APPEND PROPERTY ADDITIONAL_CLEAN_FILES ${OUTPUT_LIB_PB})
 
