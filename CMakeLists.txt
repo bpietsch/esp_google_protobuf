@@ -23,7 +23,7 @@ target_include_directories(${PROTO_LIB_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 15.0)
-        target_compile_options(${PROTO_LIB_NAME} PRIVATE -fno-optimize-sibling-calls -O2)
+        target_compile_options(${PROTO_LIB_NAME} PRIVATE -fno-optimize-sibling-calls -fno-tree-tail-merge)
     endif()
 endif()
 
