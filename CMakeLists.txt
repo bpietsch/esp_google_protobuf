@@ -21,6 +21,13 @@ set(PROTO_LIB_NAME libprotobuf-lite)
 target_compile_options(${PROTO_LIB_NAME} PRIVATE -Wno-deprecated-enum-enum-conversion)
 target_include_directories(${PROTO_LIB_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/local_include")
 
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 15.0)
+        target_compile_options(${PROTO_LIB_NAME} PRIVATE -fno-optimize-sibling-calls)
+    endif()
+endif()
+
+
 set(INPUT_LIB_PB ${CMAKE_CURRENT_BINARY_DIR}/protobuf/cmake/${PROTO_LIB_NAME}.a)
 set(OUTPUT_LIB_PB ${CMAKE_BINARY_DIR}/${PROTO_LIB_NAME}.alloc8.a)
 set(OBJCOPY xtensa-esp32-elf-objcopy)
@@ -42,7 +49,6 @@ add_custom_target(protobuf_lite_alloc8_generator DEPENDS ${OUTPUT_LIB_PB})
 add_library(protobuf_lite_alloc8 STATIC IMPORTED GLOBAL)
 add_dependencies(protobuf_lite_alloc8 protobuf_lite_alloc8_generator)
 set_target_properties(protobuf_lite_alloc8 PROPERTIES IMPORTED_LOCATION "${OUTPUT_LIB_PB}")
-
 
 get_target_property(INCLUDE_DIRS protobuf::libprotobuf-lite INTERFACE_INCLUDE_DIRECTORIES)
 get_target_property(COMPILE_DEFS protobuf::libprotobuf-lite INTERFACE_COMPILE_DEFINITIONS)
